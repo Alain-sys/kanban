@@ -1,5 +1,7 @@
+import styles from './Board.module.css';
+
 const Board = () => {
-  return <div>board</div>;
+  return <div className={styles.board}>board</div>;
 };
 
 export default Board;

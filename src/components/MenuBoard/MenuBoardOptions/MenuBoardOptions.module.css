@@ -1,0 +1,6 @@
+.menu__boardOptions {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  background-color: bisque;
+}

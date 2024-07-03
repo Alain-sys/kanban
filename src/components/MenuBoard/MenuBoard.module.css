@@ -1,0 +1,10 @@
+.menu {
+  background-color: antiquewhite;
+  width: 30%;
+  min-height: 100vh;
+}
+
+.menu__board {
+  display: flex;
+  justify-content: space-around;
+}
