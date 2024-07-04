@@ -61,7 +61,7 @@ const MenuBoard = () => {
   return (
     <div className={styles.menu}>
       <h1>Title</h1>
-      <p>All boards ({boardList.length})</p>
+      <p>All boards ({boardList.length > 0 ? boardList.length : 0})</p>
       <button type="button" onClick={handleAddBoard}>
         add new board
       </button>
