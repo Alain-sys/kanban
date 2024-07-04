@@ -1,28 +1,63 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Board } from '../Board/Board.types';
 import styles from './MenuBoard.module.css';
 import { BoardList } from './MenuBoard.types';
 import MenuBoardOptions from './MenuBoardOptions/MenuBoardOptions';
 
+const getInitialBoardList = (): BoardList => {
+  const savedBoards = localStorage.getItem('boardList');
+  return savedBoards ? JSON.parse(savedBoards) : [];
+};
+
 const MenuBoard = () => {
-  const [boardList, setBoardList] = useState<BoardList>([]);
-  const [isOpenBoardOptionsId, setIsOpenBoardOptionsId] = useState<string | null>(null);
+  const [boardList, setBoardList] = useState<BoardList>(getInitialBoardList);
+  const [isOpenBoardOptions, setIsOpenBoardOptions] = useState<boolean>(false);
+  const [OpenBoardOptionsId, setOpenBoardOptionsId] = useState<string | null>(null);
+  const [isEditingBoardTitle, setIsEditingBoardTitle] = useState<string>('');
+  const [editingBoardId, setEditingBoardId] = useState<string | null>(null);
+
+  useEffect(() => {
+    console.log('Saving boards to localStorage:', boardList);
+    localStorage.setItem('boardList', JSON.stringify(boardList));
+  }, [boardList]);
 
   const handleAddBoard = () => {
     const newBoard: Board = {
       id: uuidv4(),
-      title: '',
+      title: 'Untitled',
     };
 
     setBoardList([...boardList, newBoard]);
   };
 
   const handleBoardOptions = (boardId: string) => {
-    setIsOpenBoardOptionsId((prevId) => (prevId === boardId ? null : boardId));
+    setOpenBoardOptionsId((prevId) => (prevId === boardId ? null : boardId));
+    setIsOpenBoardOptions((prev) => !prev);
   };
 
-  console.log(boardList);
+  const handleEditTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsEditingBoardTitle(event.target.value);
+  };
+
+  const handleSaveTitle = (boardId: string) => {
+    setBoardList(
+      boardList.map((board) =>
+        board.id === boardId ? { ...board, title: isEditingBoardTitle } : board
+      )
+    );
+    setEditingBoardId(null);
+    setIsEditingBoardTitle('');
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent, boardId: string) => {
+    if (event.key === 'Enter') {
+      handleSaveTitle(boardId);
+    }
+  };
+
+  console.log('currentBoardList', boardList);
+
   return (
     <div className={styles.menu}>
       <h1>Title</h1>
@@ -32,15 +67,28 @@ const MenuBoard = () => {
       </button>
       {boardList.map((board) => (
         <div key={board.id} className={styles.menu__board}>
-          <h2>test {board.id}</h2>
+          {editingBoardId === board.id ? (
+            <input
+              type="text"
+              value={isEditingBoardTitle}
+              onChange={handleEditTitleChange}
+              onKeyDown={(event) => handleKeyPress(event, board.id)}
+              onBlur={() => handleSaveTitle(board.id)}
+              autoFocus
+            />
+          ) : (
+            <h2>{board.title}</h2>
+          )}
           <button type="button" onClick={() => handleBoardOptions(board.id)}>
             ...
           </button>
-          {isOpenBoardOptionsId === board.id && (
+          {isOpenBoardOptions && OpenBoardOptionsId === board.id && (
             <MenuBoardOptions
               boardList={boardList}
               setBoardList={setBoardList}
               boardId={board.id}
+              setEditingBoardId={setEditingBoardId}
+              setIsOpenBoardOptions={setIsOpenBoardOptions}
             />
           )}
         </div>
