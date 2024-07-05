@@ -14,7 +14,7 @@ const MenuBoard = () => {
   const [boardList, setBoardList] = useState<BoardList>(getInitialBoardList);
   const [isOpenBoardOptionsById, setIsOpenBoardOptionsById] = useState<string | null>(null);
   const [isEditingBoardTitle, setIsEditingBoardTitle] = useState<string>('');
-  const [editingBoardId, setEditingBoardId] = useState<string | null>(null);
+  const [editingBoardId, setEditingBoardById] = useState<string | null>(null);
 
   useEffect(() => {
     console.log('Saving boards to localStorage:', boardList);
@@ -35,18 +35,25 @@ const MenuBoard = () => {
   };
 
   const handleEditTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsEditingBoardTitle(event.target.value);
+    const trimmedValue = event.target.value.trim();
+    setIsEditingBoardTitle(trimmedValue.length > 0 ? event.target.value : '');
   };
 
   const handleSaveTitle = (boardId: string) => {
     setBoardList(
       boardList.map((board) =>
         board.id === boardId
-          ? { ...board, title: isEditingBoardTitle ? isEditingBoardTitle : 'Untitled' }
+          ? {
+              ...board,
+              title:
+                isEditingBoardTitle && isEditingBoardTitle.trim()
+                  ? isEditingBoardTitle.trim()
+                  : 'Untitled',
+            }
           : board
       )
     );
-    setEditingBoardId(null);
+    setEditingBoardById(null);
     setIsEditingBoardTitle('');
   };
 
@@ -73,6 +80,7 @@ const MenuBoard = () => {
               onChange={handleEditTitleChange}
               onKeyDown={(event) => handleKeyPress(event, board.id)}
               onBlur={() => handleSaveTitle(board.id)}
+              placeholder="Untitled"
               autoFocus
             />
           ) : (
@@ -85,8 +93,9 @@ const MenuBoard = () => {
             <MenuBoardOptions
               boardList={boardList}
               setBoardList={setBoardList}
-              boardId={board.id}
-              setEditingBoardId={setEditingBoardId}
+              board={board}
+              setEditingBoardById={setEditingBoardById}
+              setIsEditingBoardTitle={setIsEditingBoardTitle}
               setIsOpenBoardOptionsById={setIsOpenBoardOptionsById}
             />
           )}

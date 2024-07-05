@@ -1,28 +1,32 @@
+import { Board } from '../../Board/Board.types';
 import { BoardList } from '../MenuBoard.types';
 import styles from './MenuBoardOptions.module.css';
 
 type Props = {
   boardList: BoardList;
   setBoardList: React.Dispatch<React.SetStateAction<BoardList>>;
-  boardId: string;
-  setEditingBoardId: React.Dispatch<React.SetStateAction<string | null>>;
+  board: Board;
+  setEditingBoardById: React.Dispatch<React.SetStateAction<string | null>>;
   setIsOpenBoardOptionsById: React.Dispatch<React.SetStateAction<string | null>>;
+  setIsEditingBoardTitle: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const MenuBoardOptions = ({
   boardList,
   setBoardList,
-  boardId,
-  setEditingBoardId,
+  board,
+  setEditingBoardById,
   setIsOpenBoardOptionsById,
+  setIsEditingBoardTitle,
 }: Props) => {
   const handleDeleteBoard = () => {
-    setBoardList(boardList.filter((board) => board.id != boardId));
+    setBoardList(boardList.filter((item) => item.id != board.id));
     setIsOpenBoardOptionsById(null);
   };
 
   const handleRenameBoard = () => {
-    setEditingBoardId(boardId);
+    setEditingBoardById(board.id);
+    setIsEditingBoardTitle(board.title);
     setIsOpenBoardOptionsById(null);
   };
 
