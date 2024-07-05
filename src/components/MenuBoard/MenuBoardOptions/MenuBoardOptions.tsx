@@ -6,7 +6,7 @@ type Props = {
   setBoardList: React.Dispatch<React.SetStateAction<BoardList>>;
   boardId: string;
   setEditingBoardId: React.Dispatch<React.SetStateAction<string | null>>;
-  setIsOpenBoardOptions: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenBoardOptionsById: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 const MenuBoardOptions = ({
@@ -14,16 +14,16 @@ const MenuBoardOptions = ({
   setBoardList,
   boardId,
   setEditingBoardId,
-  setIsOpenBoardOptions,
+  setIsOpenBoardOptionsById,
 }: Props) => {
   const handleDeleteBoard = () => {
     setBoardList(boardList.filter((board) => board.id != boardId));
-    setIsOpenBoardOptions(false);
+    setIsOpenBoardOptionsById(null);
   };
 
   const handleRenameBoard = () => {
     setEditingBoardId(boardId);
-    setIsOpenBoardOptions(false);
+    setIsOpenBoardOptionsById(null);
   };
 
   return (

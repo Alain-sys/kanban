@@ -12,8 +12,7 @@ const getInitialBoardList = (): BoardList => {
 
 const MenuBoard = () => {
   const [boardList, setBoardList] = useState<BoardList>(getInitialBoardList);
-  const [isOpenBoardOptions, setIsOpenBoardOptions] = useState<boolean>(false);
-  const [OpenBoardOptionsId, setOpenBoardOptionsId] = useState<string | null>(null);
+  const [isOpenBoardOptionsById, setIsOpenBoardOptionsById] = useState<string | null>(null);
   const [isEditingBoardTitle, setIsEditingBoardTitle] = useState<string>('');
   const [editingBoardId, setEditingBoardId] = useState<string | null>(null);
 
@@ -32,8 +31,7 @@ const MenuBoard = () => {
   };
 
   const handleBoardOptions = (boardId: string) => {
-    setOpenBoardOptionsId((prevId) => (prevId === boardId ? null : boardId));
-    setIsOpenBoardOptions((prev) => !prev);
+    setIsOpenBoardOptionsById((prevId) => (prevId === boardId ? null : boardId));
   };
 
   const handleEditTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +41,9 @@ const MenuBoard = () => {
   const handleSaveTitle = (boardId: string) => {
     setBoardList(
       boardList.map((board) =>
-        board.id === boardId ? { ...board, title: isEditingBoardTitle } : board
+        board.id === boardId
+          ? { ...board, title: isEditingBoardTitle ? isEditingBoardTitle : 'Untitled' }
+          : board
       )
     );
     setEditingBoardId(null);
@@ -57,7 +57,6 @@ const MenuBoard = () => {
   };
 
   console.log('currentBoardList', boardList);
-
   return (
     <div className={styles.menu}>
       <h1>Title</h1>
@@ -82,13 +81,13 @@ const MenuBoard = () => {
           <button type="button" onClick={() => handleBoardOptions(board.id)}>
             ...
           </button>
-          {isOpenBoardOptions && OpenBoardOptionsId === board.id && (
+          {isOpenBoardOptionsById === board.id && (
             <MenuBoardOptions
               boardList={boardList}
               setBoardList={setBoardList}
               boardId={board.id}
               setEditingBoardId={setEditingBoardId}
-              setIsOpenBoardOptions={setIsOpenBoardOptions}
+              setIsOpenBoardOptionsById={setIsOpenBoardOptionsById}
             />
           )}
         </div>
