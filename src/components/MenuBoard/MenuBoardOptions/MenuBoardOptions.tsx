@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { Board } from '../../Board/Board.types';
 import { BoardList } from '../MenuBoard.types';
 import styles from './MenuBoardOptions.module.css';
@@ -19,14 +20,19 @@ const MenuBoardOptions = ({
   setIsOpenBoardOptionsById,
   setIsEditingBoardTitle,
 }: Props) => {
-  const handleDeleteBoard = () => {
-    setBoardList(boardList.filter((item) => item.id != board.id));
-    setIsOpenBoardOptionsById(null);
-  };
-
   const handleRenameBoard = () => {
     setEditingBoardById(board.id);
     setIsEditingBoardTitle(board.title);
+    setIsOpenBoardOptionsById(null);
+  };
+
+  const handleDuplicateBoard = () => {
+    setBoardList([...boardList, { ...board, id: uuidv4() }]);
+    setIsOpenBoardOptionsById(null);
+  };
+
+  const handleDeleteBoard = () => {
+    setBoardList(boardList.filter((item) => item.id != board.id));
     setIsOpenBoardOptionsById(null);
   };
 
@@ -36,7 +42,9 @@ const MenuBoardOptions = ({
         <button type="button" onClick={handleRenameBoard}>
           Rename
         </button>
-        <button type="button">Duplicate</button>
+        <button type="button" onClick={handleDuplicateBoard}>
+          Duplicate
+        </button>
         <button type="button" onClick={handleDeleteBoard}>
           Delete
         </button>
