@@ -1,4 +1,9 @@
 .menu {
+  width: 0%;
+  transition: 0.4s ease;
+}
+
+.menu--active {
   background-color: antiquewhite;
   width: 30%;
   min-height: 100vh;

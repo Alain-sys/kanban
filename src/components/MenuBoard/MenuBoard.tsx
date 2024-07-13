@@ -1,3 +1,4 @@
+import { TextInput } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Board } from '../Board/Board.types';
@@ -15,6 +16,7 @@ const MenuBoard = () => {
   const [isOpenBoardOptionsById, setIsOpenBoardOptionsById] = useState<string | null>(null);
   const [isEditingBoardTitle, setIsEditingBoardTitle] = useState<string>('');
   const [editingBoardId, setEditingBoardById] = useState<string | null>(null);
+  const [isOpenMenu, setIsOpenMenu] = useState<boolean>(true);
 
   useEffect(() => {
     console.log('Saving boards to localStorage:', boardList);
@@ -35,6 +37,7 @@ const MenuBoard = () => {
   };
 
   const handleEditTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target, 'event');
     const trimmedValue = event.target.value.trim();
     setIsEditingBoardTitle(trimmedValue.length > 0 ? event.target.value : '');
   };
@@ -63,9 +66,13 @@ const MenuBoard = () => {
     }
   };
 
+  const handleVisibilityMenu = () => {
+    setIsOpenMenu((prev) => !prev);
+  };
+
   console.log('currentBoardList', boardList);
   return (
-    <div className={styles.menu}>
+    <div className={isOpenMenu ? styles['menu--active'] : styles.menu}>
       <h1>Title</h1>
       <p>All boards ({boardList.length > 0 ? boardList.length : 0})</p>
       <button type="button" onClick={handleAddBoard}>
@@ -74,14 +81,18 @@ const MenuBoard = () => {
       {boardList.map((board) => (
         <div key={board.id} className={styles.menu__board}>
           {editingBoardId === board.id ? (
-            <input
+            <TextInput
+              id="boardName"
               type="text"
+              label="Board Name"
+              withAsterisk
               value={isEditingBoardTitle}
               onChange={handleEditTitleChange}
               onKeyDown={(event) => handleKeyPress(event, board.id)}
               onBlur={() => handleSaveTitle(board.id)}
               placeholder="Untitled"
               autoFocus
+              autoComplete="nope"
             />
           ) : (
             <h2>{board.title}</h2>
@@ -101,6 +112,9 @@ const MenuBoard = () => {
           )}
         </div>
       ))}
+      <button type="button" onClick={handleVisibilityMenu}>
+        {isOpenMenu ? 'Close' : 'Open'}
+      </button>
     </div>
   );
 };
