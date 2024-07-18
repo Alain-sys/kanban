@@ -1,9 +1,11 @@
+import { ActionIcon, Menu, rem } from '@mantine/core';
+import { IconCopy, IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
 import { v4 as uuidv4 } from 'uuid';
 import { Board } from '../../Board/Board.types';
 import { BoardList } from '../MenuBoard.types';
-import styles from './MenuBoardOptions.module.css';
 
 type Props = {
+  isOpenBoardOptionsById: string | null;
   boardList: BoardList;
   setBoardList: React.Dispatch<React.SetStateAction<BoardList>>;
   board: Board;
@@ -13,6 +15,7 @@ type Props = {
 };
 
 const MenuBoardOptions = ({
+  isOpenBoardOptionsById,
   boardList,
   setBoardList,
   board,
@@ -36,20 +39,48 @@ const MenuBoardOptions = ({
     setIsOpenBoardOptionsById(null);
   };
 
+  const handleMenuToggle = () => {
+    if (isOpenBoardOptionsById === board.id) {
+      setIsOpenBoardOptionsById(null);
+    } else {
+      setIsOpenBoardOptionsById(board.id);
+    }
+  };
+
   return (
-    <div>
-      <div className={styles.menu__boardOptions}>
-        <button type="button" onClick={handleRenameBoard}>
+    <Menu
+      opened={isOpenBoardOptionsById === board.id}
+      onClose={() => setIsOpenBoardOptionsById(null)}
+      transitionProps={{ transition: 'pop' }}
+    >
+      <Menu.Target>
+        <ActionIcon onClick={handleMenuToggle} variant="default">
+          <IconDots style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
+        </ActionIcon>
+      </Menu.Target>
+      <Menu.Dropdown>
+        <Menu.Label>Options</Menu.Label>
+        <Menu.Item
+          onClick={handleRenameBoard}
+          leftSection={<IconEdit style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
+        >
           Rename
-        </button>
-        <button type="button" onClick={handleDuplicateBoard}>
+        </Menu.Item>
+        <Menu.Item
+          onClick={handleDuplicateBoard}
+          leftSection={<IconCopy style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
+        >
           Duplicate
-        </button>
-        <button type="button" onClick={handleDeleteBoard}>
+        </Menu.Item>
+        <Menu.Item
+          onClick={handleDeleteBoard}
+          color="red"
+          leftSection={<IconTrash style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
+        >
           Delete
-        </button>
-      </div>
-    </div>
+        </Menu.Item>
+      </Menu.Dropdown>
+    </Menu>
   );
 };
 

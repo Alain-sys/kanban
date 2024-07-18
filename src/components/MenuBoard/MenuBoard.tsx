@@ -1,4 +1,5 @@
-import { TextInput } from '@mantine/core';
+import { Button, TextInput } from '@mantine/core';
+import { IconTablePlus } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Board } from '../Board/Board.types';
@@ -32,14 +33,8 @@ const MenuBoard = () => {
     setBoardList([...boardList, newBoard]);
   };
 
-  const handleBoardOptions = (boardId: string) => {
-    setIsOpenBoardOptionsById((prevId) => (prevId === boardId ? null : boardId));
-  };
-
   const handleEditTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target, 'event');
-    const trimmedValue = event.target.value.trim();
-    setIsEditingBoardTitle(trimmedValue.length > 0 ? event.target.value : '');
+    setIsEditingBoardTitle(event.target.value);
   };
 
   const handleSaveTitle = (boardId: string) => {
@@ -48,10 +43,7 @@ const MenuBoard = () => {
         board.id === boardId
           ? {
               ...board,
-              title:
-                isEditingBoardTitle && isEditingBoardTitle.trim()
-                  ? isEditingBoardTitle.trim()
-                  : 'Untitled',
+              title: isEditingBoardTitle.trim() || 'Untitled',
             }
           : board
       )
@@ -73,43 +65,47 @@ const MenuBoard = () => {
   console.log('currentBoardList', boardList);
   return (
     <div className={isOpenMenu ? styles['menu--active'] : styles.menu}>
-      <h1>Title</h1>
+      <h1>Kanban</h1>
       <p>All boards ({boardList.length > 0 ? boardList.length : 0})</p>
-      <button type="button" onClick={handleAddBoard}>
-        add new board
-      </button>
+
+      <Button
+        onClick={handleAddBoard}
+        leftSection={<IconTablePlus size={16} />}
+        variant="default"
+        style={{ marginBottom: '1rem' }}
+      >
+        Create New Board
+      </Button>
+
       {boardList.map((board) => (
         <div key={board.id} className={styles.menu__board}>
-          {editingBoardId === board.id ? (
-            <TextInput
-              id="boardName"
-              type="text"
-              label="Board Name"
-              withAsterisk
-              value={isEditingBoardTitle}
-              onChange={handleEditTitleChange}
-              onKeyDown={(event) => handleKeyPress(event, board.id)}
-              onBlur={() => handleSaveTitle(board.id)}
-              placeholder="Untitled"
-              autoFocus
-              autoComplete="nope"
-            />
-          ) : (
-            <h2>{board.title}</h2>
-          )}
-          <button type="button" onClick={() => handleBoardOptions(board.id)}>
-            ...
-          </button>
-          {isOpenBoardOptionsById === board.id && (
-            <MenuBoardOptions
-              boardList={boardList}
-              setBoardList={setBoardList}
-              board={board}
-              setEditingBoardById={setEditingBoardById}
-              setIsEditingBoardTitle={setIsEditingBoardTitle}
-              setIsOpenBoardOptionsById={setIsOpenBoardOptionsById}
-            />
-          )}
+          <div>
+            {editingBoardId === board.id ? (
+              <TextInput
+                type="text"
+                value={isEditingBoardTitle}
+                onChange={handleEditTitleChange}
+                onKeyDown={(event) => handleKeyPress(event, board.id)}
+                onBlur={() => handleSaveTitle(board.id)}
+                autoFocus
+                label="Board Name"
+                placeholder="Untitled"
+                withAsterisk
+                autoComplete="off"
+              />
+            ) : (
+              <h2>{board.title}</h2>
+            )}
+          </div>
+          <MenuBoardOptions
+            isOpenBoardOptionsById={isOpenBoardOptionsById}
+            boardList={boardList}
+            setBoardList={setBoardList}
+            board={board}
+            setEditingBoardById={setEditingBoardById}
+            setIsEditingBoardTitle={setIsEditingBoardTitle}
+            setIsOpenBoardOptionsById={setIsOpenBoardOptionsById}
+          />
         </div>
       ))}
       <button type="button" onClick={handleVisibilityMenu}>
