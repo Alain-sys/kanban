@@ -1,5 +1,5 @@
 import { Button, TextInput } from '@mantine/core';
-import { IconTablePlus } from '@tabler/icons-react';
+import { IconLayoutKanbanFilled, IconTablePlus } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Board } from '../Board/Board.types';
@@ -65,49 +65,54 @@ const MenuBoard = () => {
   console.log('currentBoardList', boardList);
   return (
     <div className={isOpenMenu ? styles['menu--active'] : styles.menu}>
-      <h1>Kanban</h1>
-      <p>All boards ({boardList.length > 0 ? boardList.length : 0})</p>
-
-      <Button
-        onClick={handleAddBoard}
-        leftSection={<IconTablePlus size={16} />}
-        variant="default"
-        style={{ marginBottom: '1rem' }}
-      >
-        Create New Board
-      </Button>
-
-      {boardList.map((board) => (
-        <div key={board.id} className={styles.menu__board}>
-          <div>
-            {editingBoardId === board.id ? (
-              <TextInput
-                type="text"
-                value={isEditingBoardTitle}
-                onChange={handleEditTitleChange}
-                onKeyDown={(event) => handleKeyPress(event, board.id)}
-                onBlur={() => handleSaveTitle(board.id)}
-                autoFocus
-                label="Board Name"
-                placeholder="Untitled"
-                withAsterisk
-                autoComplete="off"
-              />
-            ) : (
-              <h2>{board.title}</h2>
-            )}
+      <div className={styles.menu__container_title}>
+        <IconLayoutKanbanFilled size={34} color="#635FC7" />
+        <h1 className={styles.menu__title}>Kanban</h1>
+      </div>
+      <div className={styles.menu__add_board}>
+        <p>All boards ({boardList.length > 0 ? boardList.length : 0})</p>
+        <Button
+          onClick={handleAddBoard}
+          leftSection={<IconTablePlus size={16} />}
+          variant="default"
+          style={{ marginBottom: '1rem' }}
+        >
+          Create New Board
+        </Button>
+      </div>
+      <div className={styles.menu__scroll}>
+        {boardList.map((board) => (
+          <div key={board.id} className={styles.menu__board}>
+            <div>
+              {editingBoardId === board.id ? (
+                <TextInput
+                  type="text"
+                  value={isEditingBoardTitle}
+                  onChange={handleEditTitleChange}
+                  onKeyDown={(event) => handleKeyPress(event, board.id)}
+                  onBlur={() => handleSaveTitle(board.id)}
+                  autoFocus
+                  label="Board Name"
+                  placeholder="Untitled"
+                  withAsterisk
+                  autoComplete="off"
+                />
+              ) : (
+                <h2>{board.title}</h2>
+              )}
+            </div>
+            <MenuBoardOptions
+              isOpenBoardOptionsById={isOpenBoardOptionsById}
+              boardList={boardList}
+              setBoardList={setBoardList}
+              board={board}
+              setEditingBoardById={setEditingBoardById}
+              setIsEditingBoardTitle={setIsEditingBoardTitle}
+              setIsOpenBoardOptionsById={setIsOpenBoardOptionsById}
+            />
           </div>
-          <MenuBoardOptions
-            isOpenBoardOptionsById={isOpenBoardOptionsById}
-            boardList={boardList}
-            setBoardList={setBoardList}
-            board={board}
-            setEditingBoardById={setEditingBoardById}
-            setIsEditingBoardTitle={setIsEditingBoardTitle}
-            setIsOpenBoardOptionsById={setIsOpenBoardOptionsById}
-          />
-        </div>
-      ))}
+        ))}
+      </div>
       <button type="button" onClick={handleVisibilityMenu}>
         {isOpenMenu ? 'Close' : 'Open'}
       </button>
