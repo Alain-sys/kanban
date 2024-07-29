@@ -1,5 +1,5 @@
-import { Button, TextInput } from '@mantine/core';
-import { IconLayoutKanbanFilled, IconTablePlus } from '@tabler/icons-react';
+import { Button, TextInput, Tooltip } from '@mantine/core';
+import { IconChevronsLeft, IconLayoutKanbanFilled, IconTablePlus } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Board } from '../Board/Board.types';
@@ -64,19 +64,21 @@ const MenuBoard = () => {
 
   console.log('currentBoardList', boardList);
   return (
-    <div className={isOpenMenu ? styles['menu--active'] : styles.menu}>
+    <div className={`${styles.menu} ${isOpenMenu ? styles['menu--open'] : styles['menu--close']}`}>
       <div className={styles.menu__container_title}>
         <IconLayoutKanbanFilled size={34} color="#635FC7" />
         <h1 className={styles.menu__title}>Kanban</h1>
       </div>
       <div className={styles.menu__add_board}>
-        <p>All boards ({boardList.length > 0 ? boardList.length : 0})</p>
+        <p className={styles.menu__information}>
+          All boards ({boardList.length > 0 ? boardList.length : 0})
+        </p>
         <Button
           onClick={handleAddBoard}
-          leftSection={<IconTablePlus size={16} />}
           variant="default"
-          style={{ marginBottom: '1rem' }}
+          style={{ marginBottom: '1rem', position: 'static' }}
         >
+          <IconTablePlus size={16} style={{ marginRight: '8px' }} />
           Create New Board
         </Button>
       </div>
@@ -113,9 +115,19 @@ const MenuBoard = () => {
           </div>
         ))}
       </div>
-      <button type="button" onClick={handleVisibilityMenu}>
-        {isOpenMenu ? 'Close' : 'Open'}
-      </button>
+      <div className={styles.menu__button_container}>
+        <Tooltip label={isOpenMenu ? 'Close' : 'Open'}>
+          <Button
+            type="button"
+            className={`${styles.menu__button} ${isOpenMenu ? styles['menu__button--close'] : styles['menu__button--open']}`}
+            onClick={handleVisibilityMenu}
+          >
+            <IconChevronsLeft
+              className={`${styles.menu__button_icon} ${isOpenMenu ? styles['menu__button_icon--close'] : styles['menu__button_icon--open']}`}
+            />
+          </Button>
+        </Tooltip>
+      </div>
     </div>
   );
 };

@@ -1,14 +1,18 @@
 .menu {
-  width: 0%;
-  transition: 0.4s ease;
+  flex-shrink: 0;
+  padding: 32px 0;
+  transition: width 2s;
 }
 
-.menu--active {
+.menu--open {
   display: flex;
   flex-direction: column;
-  min-width: 300px;
+  width: 300px;
   min-height: 100vh;
-  padding: 32px 0;
+}
+
+.menu--close {
+  width: 0;
 }
 
 .menu__container_title {
@@ -31,9 +35,15 @@
   padding: 0 24px;
 }
 
+.menu__information {
+  white-space: nowrap;
+}
+
 .menu__scroll {
   overflow-y: scroll;
-  min-height: 70%;
+  /* min-height: 70%; */
+  min-height: 500px;
+  height: 500px;
 }
 
 .menu__board {
@@ -42,4 +52,42 @@
   align-items: center;
   gap: 16px;
   padding: 0 24px 0 32px;
+}
+
+.menu__button_container {
+  position: relative;
+}
+
+.menu__button {
+  position: absolute;
+
+  transition:
+    right 2s,
+    transform 2s; /* Transition pour le déplacement */
+}
+
+.menu__button--open {
+  right: -62px;
+  transform: translateX(0); /* Aucun déplacement horizontal */
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.menu__button--close {
+  right: 0; /* Position à l'intérieur du menu */
+  transform: translateX(0); /* Déplacement horizontal complet à l'intérieur */
+  /* margin-right: -50px; */
+}
+
+.menu__button_icon {
+  transition: 0.4s;
+}
+
+.menu__button_icon--close {
+  transition-delay: 1s;
+  transform: rotate(180deg);
+}
+
+.menu__button_icon--open {
+  transform: rotate(0);
 }

@@ -1,4 +1,4 @@
-import { ActionIcon, Menu, rem } from '@mantine/core';
+import { ActionIcon, Menu, rem, Tooltip } from '@mantine/core';
 import { IconCopy, IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
 import { v4 as uuidv4 } from 'uuid';
 import { Board } from '../../Board/Board.types';
@@ -54,9 +54,11 @@ const MenuBoardOptions = ({
       transitionProps={{ transition: 'pop' }}
     >
       <Menu.Target>
-        <ActionIcon onClick={handleMenuToggle} variant="default">
-          <IconDots style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-        </ActionIcon>
+        <Tooltip label="Options">
+          <ActionIcon onClick={handleMenuToggle} variant="default">
+            <IconDots style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
+          </ActionIcon>
+        </Tooltip>
       </Menu.Target>
       <Menu.Dropdown>
         <Menu.Label>Options</Menu.Label>
