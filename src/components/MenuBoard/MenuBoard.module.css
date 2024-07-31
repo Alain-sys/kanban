@@ -1,14 +1,14 @@
 .menu {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   flex-shrink: 0;
   padding: 32px 0;
-  transition: width 2s;
+  transition: width 0.4s ease;
 }
 
 .menu--open {
-  display: flex;
-  flex-direction: column;
   width: 300px;
-  min-height: 100vh;
 }
 
 .menu--close {
@@ -40,18 +40,22 @@
 }
 
 .menu__scroll {
+  min-height: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   overflow-y: scroll;
-  /* min-height: 70%; */
-  min-height: 500px;
-  height: 500px;
 }
 
 .menu__board {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 16px;
   padding: 0 24px 0 32px;
+}
+
+.menu__button_board {
+  width: 100%;
 }
 
 .menu__button_container {
@@ -60,23 +64,21 @@
 
 .menu__button {
   position: absolute;
-
-  transition:
-    right 2s,
-    transform 2s; /* Transition pour le déplacement */
+  transition: 0.4s;
 }
 
 .menu__button--open {
   right: -62px;
-  transform: translateX(0); /* Aucun déplacement horizontal */
+  transform: translateX(0); 
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
 .menu__button--close {
-  right: 0; /* Position à l'intérieur du menu */
-  transform: translateX(0); /* Déplacement horizontal complet à l'intérieur */
-  /* margin-right: -50px; */
+  right: 0;
+  transform: translateX(0); 
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .menu__button_icon {
@@ -84,10 +86,9 @@
 }
 
 .menu__button_icon--close {
-  transition-delay: 1s;
-  transform: rotate(180deg);
+  transform: rotate(0);
 }
 
 .menu__button_icon--open {
-  transform: rotate(0);
+  transform: rotate(180deg);
 }

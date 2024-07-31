@@ -85,7 +85,6 @@ const MenuBoard = () => {
       <div className={styles.menu__scroll}>
         {boardList.map((board) => (
           <div key={board.id} className={styles.menu__board}>
-            <div>
               {editingBoardId === board.id ? (
                 <TextInput
                   type="text"
@@ -100,9 +99,8 @@ const MenuBoard = () => {
                   autoComplete="off"
                 />
               ) : (
-                <h2>{board.title}</h2>
+                <Button variant="default" className={styles.menu__button_board}>{board.title}</Button>
               )}
-            </div>
             <MenuBoardOptions
               isOpenBoardOptionsById={isOpenBoardOptionsById}
               boardList={boardList}
