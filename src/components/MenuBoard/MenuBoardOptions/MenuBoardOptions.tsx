@@ -3,6 +3,7 @@ import { IconCopy, IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
 import { v4 as uuidv4 } from 'uuid';
 import { Board } from '../../Board/Board.types';
 import { BoardList } from '../MenuBoard.types';
+import styles from './MenuBoardOptions.module.css';
 
 type Props = {
   isOpenBoardOptionsById: string | null;
@@ -48,41 +49,46 @@ const MenuBoardOptions = ({
   };
 
   return (
-    <Menu
-      opened={isOpenBoardOptionsById === board.id}
-      onClose={() => setIsOpenBoardOptionsById(null)}
-      transitionProps={{ transition: 'pop' }}
-    >
-      <Menu.Target>
-        <Tooltip label="Options">
-          <ActionIcon onClick={handleMenuToggle} variant="default">
-            <IconDots style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-          </ActionIcon>
-        </Tooltip>
-      </Menu.Target>
-      <Menu.Dropdown>
-        <Menu.Label>Options</Menu.Label>
-        <Menu.Item
-          onClick={handleRenameBoard}
-          leftSection={<IconEdit style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-        >
-          Rename
-        </Menu.Item>
-        <Menu.Item
-          onClick={handleDuplicateBoard}
-          leftSection={<IconCopy style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-        >
-          Duplicate
-        </Menu.Item>
-        <Menu.Item
-          onClick={handleDeleteBoard}
-          color="red"
-          leftSection={<IconTrash style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-        >
-          Delete
-        </Menu.Item>
-      </Menu.Dropdown>
-    </Menu>
+    <>
+      {isOpenBoardOptionsById === board.id && (
+        <div className={styles.overlay} onClick={() => setIsOpenBoardOptionsById(null)} />
+      )}
+      <Menu
+        opened={isOpenBoardOptionsById === board.id}
+        onClose={() => setIsOpenBoardOptionsById(null)}
+        transitionProps={{ transition: 'pop' }}
+      >
+        <Menu.Target>
+          <Tooltip label="Options">
+            <ActionIcon onClick={handleMenuToggle} variant="default" aria-label="Open board option">
+              <IconDots style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
+            </ActionIcon>
+          </Tooltip>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Label>Options</Menu.Label>
+          <Menu.Item
+            onClick={handleRenameBoard}
+            leftSection={<IconEdit style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
+          >
+            Rename
+          </Menu.Item>
+          <Menu.Item
+            onClick={handleDuplicateBoard}
+            leftSection={<IconCopy style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
+          >
+            Duplicate
+          </Menu.Item>
+          <Menu.Item
+            onClick={handleDeleteBoard}
+            color="red"
+            leftSection={<IconTrash style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
+          >
+            Delete
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
+    </>
   );
 };
 

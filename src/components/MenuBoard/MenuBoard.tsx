@@ -18,6 +18,7 @@ const MenuBoard = () => {
   const [isEditingBoardTitle, setIsEditingBoardTitle] = useState<string>('');
   const [editingBoardId, setEditingBoardById] = useState<string | null>(null);
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(true);
+  const [isHoverBoardById, setIsHoverBoardById] = useState<string | null>(null);
 
   useEffect(() => {
     console.log('Saving boards to localStorage:', boardList);
@@ -62,7 +63,17 @@ const MenuBoard = () => {
     setIsOpenMenu((prev) => !prev);
   };
 
-  console.log('currentBoardList', boardList);
+  const handleMouseOver = (boardId: string) => {
+    setIsHoverBoardById(boardId);
+  };
+
+  const handleMouseOut = () => {
+    console.log('onMouseOut');
+    setIsHoverBoardById(null);
+    setIsOpenBoardOptionsById(null);
+  };
+
+  // console.log('currentBoardList', boardList);
   return (
     <div className={`${styles.menu} ${isOpenMenu ? styles['menu--open'] : styles['menu--close']}`}>
       <div className={styles.menu__container_title}>
@@ -85,23 +96,40 @@ const MenuBoard = () => {
       <div className={styles.menu__scroll}>
         {boardList.map((board) => (
           <div key={board.id} className={styles.menu__board}>
-              {editingBoardId === board.id ? (
-                <TextInput
-                  type="text"
-                  value={isEditingBoardTitle}
-                  onChange={handleEditTitleChange}
-                  onKeyDown={(event) => handleKeyPress(event, board.id)}
-                  onBlur={() => handleSaveTitle(board.id)}
-                  autoFocus
-                  label="Board Name"
-                  placeholder="Untitled"
-                  withAsterisk
-                  autoComplete="off"
-                />
-              ) : (
-                <Button variant="default" className={styles.menu__button_board}>{board.title}</Button>
-              )}
-            <MenuBoardOptions
+            {editingBoardId === board.id ? (
+              <TextInput
+                type="text"
+                value={isEditingBoardTitle}
+                onChange={handleEditTitleChange}
+                onKeyDown={(event) => handleKeyPress(event, board.id)}
+                onBlur={() => handleSaveTitle(board.id)}
+                autoFocus
+                label="Board Name"
+                placeholder="Untitled"
+                withAsterisk
+                autoComplete="off"
+              />
+            ) : (
+              <div
+                onMouseOver={() => handleMouseOver(board.id)}
+                onMouseLeave={handleMouseOut}
+                className={styles.menu__button_board}
+              >
+                <p>{board.title}</p>
+                {isHoverBoardById === board.id && (
+                  <MenuBoardOptions
+                    isOpenBoardOptionsById={isOpenBoardOptionsById}
+                    boardList={boardList}
+                    setBoardList={setBoardList}
+                    board={board}
+                    setEditingBoardById={setEditingBoardById}
+                    setIsEditingBoardTitle={setIsEditingBoardTitle}
+                    setIsOpenBoardOptionsById={setIsOpenBoardOptionsById}
+                  />
+                )}
+              </div>
+            )}
+            {/* <MenuBoardOptions
               isOpenBoardOptionsById={isOpenBoardOptionsById}
               boardList={boardList}
               setBoardList={setBoardList}
@@ -109,7 +137,7 @@ const MenuBoard = () => {
               setEditingBoardById={setEditingBoardById}
               setIsEditingBoardTitle={setIsEditingBoardTitle}
               setIsOpenBoardOptionsById={setIsOpenBoardOptionsById}
-            />
+            /> */}
           </div>
         ))}
       </div>
