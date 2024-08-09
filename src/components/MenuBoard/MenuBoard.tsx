@@ -95,26 +95,26 @@ const MenuBoard = () => {
       </div>
       <div className={styles.menu__scroll}>
         {boardList.map((board) => (
-          <div key={board.id} className={styles.menu__board}>
+          <div
+            key={board.id}
+            className={styles.menu__board}
+            tabIndex={0}
+            onMouseOver={() => handleMouseOver(board.id)}
+            {...(isHoverBoardById !== board.id && { onMouseOut: handleMouseOut })}
+          >
             {editingBoardId === board.id ? (
               <TextInput
+                className={styles.menu__board__input}
                 type="text"
                 value={isEditingBoardTitle}
                 onChange={handleEditTitleChange}
                 onKeyDown={(event) => handleKeyPress(event, board.id)}
                 onBlur={() => handleSaveTitle(board.id)}
                 autoFocus
-                label="Board Name"
                 placeholder="Untitled"
-                withAsterisk
-                autoComplete="off"
               />
             ) : (
-              <div
-                onMouseOver={() => handleMouseOver(board.id)}
-                onMouseLeave={handleMouseOut}
-                className={styles.menu__button_board}
-              >
+              <>
                 <p>{board.title}</p>
                 {isHoverBoardById === board.id && (
                   <MenuBoardOptions
@@ -127,17 +127,8 @@ const MenuBoard = () => {
                     setIsOpenBoardOptionsById={setIsOpenBoardOptionsById}
                   />
                 )}
-              </div>
+              </>
             )}
-            {/* <MenuBoardOptions
-              isOpenBoardOptionsById={isOpenBoardOptionsById}
-              boardList={boardList}
-              setBoardList={setBoardList}
-              board={board}
-              setEditingBoardById={setEditingBoardById}
-              setIsEditingBoardTitle={setIsEditingBoardTitle}
-              setIsOpenBoardOptionsById={setIsOpenBoardOptionsById}
-            /> */}
           </div>
         ))}
       </div>
