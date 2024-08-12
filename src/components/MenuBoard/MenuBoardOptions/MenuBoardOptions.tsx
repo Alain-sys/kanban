@@ -6,61 +6,61 @@ import { BoardList } from '../MenuBoard.types';
 import styles from './MenuBoardOptions.module.css';
 
 type Props = {
-  isOpenBoardOptionsById: string | null;
+  isOpenBoardOptions: boolean;
   boardList: BoardList;
   setBoardList: React.Dispatch<React.SetStateAction<BoardList>>;
   board: Board;
-  setEditingBoardById: React.Dispatch<React.SetStateAction<string | null>>;
-  setIsOpenBoardOptionsById: React.Dispatch<React.SetStateAction<string | null>>;
+  setEditingBoard: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenBoardOptions: React.Dispatch<React.SetStateAction<boolean>>;
   setIsEditingBoardTitle: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const MenuBoardOptions = ({
-  isOpenBoardOptionsById,
+  isOpenBoardOptions,
+  setIsOpenBoardOptions,
   boardList,
   setBoardList,
   board,
-  setEditingBoardById,
-  setIsOpenBoardOptionsById,
+  setEditingBoard,
   setIsEditingBoardTitle,
 }: Props) => {
   const handleRenameBoard = () => {
-    setEditingBoardById(board.id);
+    setEditingBoard(true);
     setIsEditingBoardTitle(board.title);
-    setIsOpenBoardOptionsById(null);
+    setIsOpenBoardOptions(false);
   };
 
   const handleDuplicateBoard = () => {
     setBoardList([...boardList, { ...board, id: uuidv4() }]);
-    setIsOpenBoardOptionsById(null);
+    setIsOpenBoardOptions(false);
   };
 
   const handleDeleteBoard = () => {
-    setBoardList(boardList.filter((item) => item.id != board.id));
-    setIsOpenBoardOptionsById(null);
+    setBoardList(boardList.filter((item) => item.id !== board.id));
+    setIsOpenBoardOptions(false);
   };
 
-  const handleMenuToggle = () => {
-    if (isOpenBoardOptionsById === board.id) {
-      setIsOpenBoardOptionsById(null);
-    } else {
-      setIsOpenBoardOptionsById(board.id);
-    }
+  const handleOpenBoardOptions = () => {
+    setIsOpenBoardOptions(true);
+  };
+
+  const handleCloseBoardOptions = () => {
+    setIsOpenBoardOptions(false);
   };
 
   return (
     <>
-      {isOpenBoardOptionsById === board.id && (
-        <div className={styles.overlay} onClick={() => setIsOpenBoardOptionsById(null)} />
+      {isOpenBoardOptions && (
+        <div className={styles.overlay} onClick={() => setIsOpenBoardOptions(false)} />
       )}
       <Menu
-        opened={isOpenBoardOptionsById === board.id}
-        onClose={() => setIsOpenBoardOptionsById(null)}
+        onOpen={handleOpenBoardOptions}
+        onClose={handleCloseBoardOptions}
         transitionProps={{ transition: 'pop' }}
       >
         <Menu.Target>
           <Tooltip label="Options">
-            <ActionIcon onClick={handleMenuToggle} variant="default" aria-label="Open board option">
+            <ActionIcon variant="default" aria-label="Open board option">
               <IconDots style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
             </ActionIcon>
           </Tooltip>
