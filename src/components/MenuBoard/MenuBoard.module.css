@@ -25,6 +25,8 @@
 }
 
 .menu__icon {
+  width: 34px;
+  height: 34px;
   color: var(--mantine-primary-color-filled);
 }
 
@@ -33,15 +35,26 @@
   line-height: normal;
 }
 
-.menu__add_board {
+.menu__add_board_container {
   display: flex;
   flex-direction: column;
   gap: 4px;
   padding: 0 24px;
 }
 
-.menu__information {
+.menu__board_count {
   white-space: nowrap;
+}
+
+.menu__add_board_button {
+  position: static;
+  margin-bottom: 1rem;
+}
+
+.menu__add_board_icon {
+  height: 16px;
+  width: 16px;
+  margin-right: 8px;
 }
 
 .menu__scroll {

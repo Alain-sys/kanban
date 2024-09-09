@@ -34,19 +34,19 @@ const MenuBoard = () => {
   return (
     <div className={`${styles.menu} ${isOpenMenu ? styles['menu--open'] : styles['menu--close']}`}>
       <div className={styles.menu__container_title}>
-        <IconLayoutKanbanFilled className={styles.menu__icon} size={34} />
+        <IconLayoutKanbanFilled className={styles.menu__icon} />
         <h1 className={styles.menu__title}>Kanban</h1>
       </div>
-      <div className={styles.menu__add_board}>
-        <p className={styles.menu__information}>
+      <div className={styles.menu__add_board_container}>
+        <p className={styles.menu__board_count}>
           All boards ({boardList.length > 0 ? boardList.length : 0})
         </p>
         <Button
           onClick={handleAddBoard}
           variant="default"
-          style={{ marginBottom: '1rem', position: 'static' }}
+          className={styles.menu__add_board_button}
         >
-          <IconTablePlus size={16} style={{ marginRight: '8px' }} />
+          <IconTablePlus className={styles.menu__add_board_icon} />
           Create New Board
         </Button>
       </div>
