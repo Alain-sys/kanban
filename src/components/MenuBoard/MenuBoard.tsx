@@ -8,12 +8,17 @@ import ButtonVisibilityMenu from './ButtonVisibilityMenu/ButtonVisibilityMenu';
 import styles from './MenuBoard.module.css';
 import { BoardList } from './MenuBoard.types';
 
-const getLocalStorageBoardList = (): BoardList => {
+export const getLocalStorageBoardList = (): BoardList => {
   const savedBoards = localStorage.getItem('boardList');
   return savedBoards ? JSON.parse(savedBoards) : [];
 };
 
-const MenuBoard = () => {
+type Props = {
+  boardId: string | null;
+  setBoardId: React.Dispatch<React.SetStateAction<string | null>>;
+};
+
+const MenuBoard = ({ boardId, setBoardId }: Props) => {
   const [boardList, setBoardList] = useState<BoardList>(getLocalStorageBoardList);
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(true);
 
@@ -57,6 +62,8 @@ const MenuBoard = () => {
             boardList={boardList}
             setBoardList={setBoardList}
             board={board}
+            boardId={boardId}
+            setBoardId={setBoardId}
           />
         ))}
       </div>

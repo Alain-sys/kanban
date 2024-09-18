@@ -6,3 +6,7 @@
   height: 100%;
   z-index: 99;
 }
+
+.button--options {
+  z-index: 99;
+}

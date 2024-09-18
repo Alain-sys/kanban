@@ -9,9 +9,11 @@ type Props = {
   boardList: BoardList;
   setBoardList: React.Dispatch<React.SetStateAction<BoardList>>;
   board: Board;
+  boardId: string | null;
+  setBoardId: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
-const BoardItem = ({ boardList, setBoardList, board }: Props) => {
+const BoardItem = ({ boardList, setBoardList, board, boardId, setBoardId }: Props) => {
   const [isEditingBoardTitle, setIsEditingBoardTitle] = useState<string>('');
   const [editingBoard, setEditingBoard] = useState<boolean>(false);
   const [isHoverBoard, setIsHoverBoard] = useState<boolean>(false);
@@ -47,10 +49,18 @@ const BoardItem = ({ boardList, setBoardList, board }: Props) => {
     setIsHoverBoard(false);
   };
 
+  const handleClickBoard = () => {
+    if (board.id === boardId) {
+      return;
+    }
+    setBoardId(board.id);
+  };
+
   return (
     <div
       className={styles.menu__board}
-      {...(!isOpenBoardOptions && { onMouseEnter: handleMouseEnter })}
+      onClick={handleClickBoard}
+      {...(!isOpenBoardOptions && { onMouseMove: handleMouseEnter })}
       {...(!isOpenBoardOptions && { onMouseLeave: handleMouseLeave })}
       tabIndex={0}
     >
@@ -77,6 +87,7 @@ const BoardItem = ({ boardList, setBoardList, board }: Props) => {
               board={board}
               setEditingBoard={setEditingBoard}
               setIsEditingBoardTitle={setIsEditingBoardTitle}
+              setIsHoverBoard={setIsHoverBoard}
             />
           )}
         </>

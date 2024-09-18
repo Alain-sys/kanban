@@ -8,6 +8,11 @@
   gap: 16px;
 }
 
+.menu__board:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
 .menu__board__input {
   width: 100%;
 }
