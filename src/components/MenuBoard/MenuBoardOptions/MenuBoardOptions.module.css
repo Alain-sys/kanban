@@ -1,12 +1,23 @@
-.overlay {
+.menu__board__option-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 99;
+  cursor: initial;
 }
 
-.button--options {
+.menu__board__option-dropdown {
+  cursor: initial;
+}
+
+.menu__board__option-opening {
   z-index: 99;
+}
+
+.menu__board__option-icon {
+  height: calc(1rem * var(--mantine-scale));
+  width: calc(1rem * var(--mantine-scale));
+  stroke-width: 1.5;
 }

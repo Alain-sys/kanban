@@ -50,7 +50,7 @@ const BoardItem = ({ boardList, setBoardList, board, boardId, setBoardId }: Prop
   };
 
   const handleClickBoard = () => {
-    if (board.id === boardId) {
+    if (board.id === boardId || isOpenBoardOptions) {
       return;
     }
     setBoardId(board.id);
@@ -77,7 +77,7 @@ const BoardItem = ({ boardList, setBoardList, board, boardId, setBoardId }: Prop
         />
       ) : (
         <>
-          <p>{board.title}</p>
+          <p className={styles.menu__board__title}>{board.title}</p>
           {isHoverBoard && (
             <MenuBoardOptions
               isOpenBoardOptions={isOpenBoardOptions}

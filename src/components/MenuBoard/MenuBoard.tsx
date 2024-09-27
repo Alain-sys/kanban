@@ -1,17 +1,13 @@
-import { Button } from '@mantine/core';
+import { Button, ScrollArea } from '@mantine/core';
 import { IconLayoutKanbanFilled, IconTablePlus } from '@tabler/icons-react';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { getLocalStorageBoardList } from '../../utils/boardLocalStorage';
 import { Board } from '../Board/Board.types';
 import BoardItem from './BoardItem/BoardItem';
 import ButtonVisibilityMenu from './ButtonVisibilityMenu/ButtonVisibilityMenu';
 import styles from './MenuBoard.module.css';
 import { BoardList } from './MenuBoard.types';
-
-export const getLocalStorageBoardList = (): BoardList => {
-  const savedBoards = localStorage.getItem('boardList');
-  return savedBoards ? JSON.parse(savedBoards) : [];
-};
 
 type Props = {
   boardId: string | null;
@@ -55,18 +51,20 @@ const MenuBoard = ({ boardId, setBoardId }: Props) => {
           Create New Board
         </Button>
       </div>
-      <div className={styles.menu__scroll}>
-        {boardList.map((board) => (
-          <BoardItem
-            key={board.id}
-            boardList={boardList}
-            setBoardList={setBoardList}
-            board={board}
-            boardId={boardId}
-            setBoardId={setBoardId}
-          />
-        ))}
-      </div>
+      <ScrollArea className={styles.menu__scroll}>
+        <div className={styles.menu__scroll__container}>
+          {boardList.map((board) => (
+            <BoardItem
+              key={board.id}
+              boardList={boardList}
+              setBoardList={setBoardList}
+              board={board}
+              boardId={boardId}
+              setBoardId={setBoardId}
+            />
+          ))}
+        </div>
+      </ScrollArea>
       <span className={styles.menu__divider}></span>
       <ButtonVisibilityMenu isOpenMenu={isOpenMenu} setIsOpenMenu={setIsOpenMenu} />
     </div>

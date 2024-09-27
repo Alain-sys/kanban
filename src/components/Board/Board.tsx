@@ -1,4 +1,4 @@
-import { getLocalStorageBoardList } from '../MenuBoard/MenuBoard';
+import { getLocalStorageBoardList } from '../../utils/boardLocalStorage';
 import styles from './Board.module.css';
 
 type Props = {
