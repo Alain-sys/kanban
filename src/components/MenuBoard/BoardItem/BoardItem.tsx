@@ -1,6 +1,6 @@
 import { TextInput } from '@mantine/core';
 import { useState } from 'react';
-import { Board } from '../../Board/Board.types';
+import { TBoard } from '../../Board/Board.types';
 import { BoardList } from '../MenuBoard.types';
 import MenuBoardOptions from '../MenuBoardOptions/MenuBoardOptions';
 import styles from './BoardItem.module.css';
@@ -8,7 +8,7 @@ import styles from './BoardItem.module.css';
 type Props = {
   boardList: BoardList;
   setBoardList: React.Dispatch<React.SetStateAction<BoardList>>;
-  board: Board;
+  board: TBoard;
   boardId: string | null;
   setBoardId: React.Dispatch<React.SetStateAction<string | null>>;
 };
@@ -58,7 +58,7 @@ const BoardItem = ({ boardList, setBoardList, board, boardId, setBoardId }: Prop
 
   return (
     <div
-      className={styles.menu__board}
+      className={`${styles.menu__board} ${isOpenBoardOptions && styles['menu__board--open']}`}
       onClick={handleClickBoard}
       {...(!isOpenBoardOptions && { onMouseMove: handleMouseEnter })}
       {...(!isOpenBoardOptions && { onMouseLeave: handleMouseLeave })}

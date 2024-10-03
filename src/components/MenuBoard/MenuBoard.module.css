@@ -10,10 +10,19 @@
 
 .menu--open {
   width: 300px;
+  border-right: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }
 
 .menu--close {
   width: 0;
+}
+
+.menu__main-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .menu__container_title {
@@ -47,7 +56,6 @@
 }
 
 .menu__add_board_button {
-  position: static;
   margin-bottom: 1rem;
 }
 
@@ -71,5 +79,5 @@
 
 .menu__divider {
   margin: 10px 24px 0 24px;
-  border-top: 1px solid var(--mantine-color-gray-3);
+  border-top: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }

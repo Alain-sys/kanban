@@ -1,7 +1,7 @@
 import { ActionIcon, Menu, Tooltip } from '@mantine/core';
 import { IconCopy, IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
 import { v4 as uuidv4 } from 'uuid';
-import { Board } from '../../Board/Board.types';
+import { TBoard } from '../../Board/Board.types';
 import { BoardList } from '../MenuBoard.types';
 import styles from './MenuBoardOptions.module.css';
 
@@ -9,7 +9,7 @@ type Props = {
   isOpenBoardOptions: boolean;
   boardList: BoardList;
   setBoardList: React.Dispatch<React.SetStateAction<BoardList>>;
-  board: Board;
+  board: TBoard;
   setEditingBoard: React.Dispatch<React.SetStateAction<boolean>>;
   setIsOpenBoardOptions: React.Dispatch<React.SetStateAction<boolean>>;
   setIsEditingBoardTitle: React.Dispatch<React.SetStateAction<string>>;
@@ -65,11 +65,7 @@ const MenuBoardOptions = ({
       {isOpenBoardOptions && (
         <div className={styles['menu__board__option-overlay']} onClick={handleClickOverlay} />
       )}
-      <Menu
-        opened={isOpenBoardOptions}
-        withinPortal={false}
-        transitionProps={{ transition: 'pop' }}
-      >
+      <Menu opened={isOpenBoardOptions} withinPortal={true} transitionProps={{ transition: 'pop' }}>
         <Menu.Target>
           <Tooltip label="Options">
             <ActionIcon

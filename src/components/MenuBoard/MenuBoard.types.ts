@@ -1,3 +1,3 @@
-import { Board } from "../Board/Board.types";
+import { TBoard } from "../Board/Board.types";
 
-export type BoardList = Board[];
+export type BoardList = TBoard[];

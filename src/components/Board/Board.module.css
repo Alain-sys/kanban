@@ -1,4 +1,21 @@
 .board {
-  background-color: aliceblue;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.board__title-container {
+  padding: 20px 32px 28px 24px;
+  background-color: white;
+  border-bottom: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+}
+
+.board__content {
+  height: 100%;
+  display: flex;
+  background-color: var(--mantine-color-blue-light);
+}
+
+.content__add-board {
+  margin: auto;
 }
