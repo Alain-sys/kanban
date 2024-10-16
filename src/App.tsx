@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import Board from './components/Board/Board';
 import MenuBoard from './components/MenuBoard/MenuBoard';
-import { BoardList } from './components/MenuBoard/MenuBoard.types';
+import { TBoardList } from './components/MenuBoard/MenuBoard.types';
+import { getLocalStorageBoardList } from './services/LocalStorage/LocalStorage.service';
 import styles from './styles/App.module.css';
-import { getLocalStorageBoardList } from './utils/boardLocalStorage';
 
 function App() {
-  const [boardList, setBoardList] = useState<BoardList>(getLocalStorageBoardList);
+  const [boardList, setBoardList] = useState<TBoardList>(getLocalStorageBoardList);
   const [boardId, setBoardId] = useState<string | null>(null);
 
   return (

@@ -1,13 +1,15 @@
+import { Button, ScrollArea } from '@mantine/core';
+import { IconPlus } from '@tabler/icons-react';
 import { useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { BoardList } from '../MenuBoard/MenuBoard.types';
+import { TBoardList } from '../MenuBoard/MenuBoard.types';
 import styles from './Board.module.css';
 import { TColumn } from './Board.types';
 import Column from './Column/Column';
 
 type Props = {
-  boardList: BoardList;
-  setBoardList: React.Dispatch<React.SetStateAction<BoardList>>;
+  boardList: TBoardList;
+  setBoardList: React.Dispatch<React.SetStateAction<TBoardList>>;
   boardId: string | null;
 };
 
@@ -19,12 +21,13 @@ const Board = ({ boardList, setBoardList, boardId }: Props) => {
         ? boardList[0]
         : null;
   }, [boardId, boardList]);
-  console.log('currentBoard:', currentBoard);
-  console.log('boardId', boardId);
+
+  console.log('currentBoard', currentBoard);
+
   const handleClickAddColumn = () => {
     if (!currentBoard) return;
 
-    const newList: TColumn = {
+    const newColumn: TColumn = {
       id: uuidv4(),
       title: 'Untitled',
       tasks: [],
@@ -32,7 +35,7 @@ const Board = ({ boardList, setBoardList, boardId }: Props) => {
 
     setBoardList((prevBoardList) =>
       prevBoardList.map((board) =>
-        board.id === currentBoard.id ? { ...board, columns: [...board.columns, newList] } : board
+        board.id === currentBoard.id ? { ...board, columns: [...board.columns, newColumn] } : board
       )
     );
   };
@@ -46,24 +49,46 @@ const Board = ({ boardList, setBoardList, boardId }: Props) => {
           </div>
           <div className={styles.board__content}>
             {currentBoard.columns && currentBoard.columns.length > 0 ? (
-              <div style={{ display: 'flex' }}>
-                {currentBoard.columns.map((column) => (
-                  <Column key={column.id} column={column} />
-                ))}
-                <button onClick={handleClickAddColumn}>+</button>
-              </div>
+              <ScrollArea className={styles['board__column-scroll']} offsetScrollbars={'x'}>
+                <div className={styles['board__column-container']}>
+                  {currentBoard.columns.map((column) => (
+                    <Column
+                      key={column.id}
+                      setBoardList={setBoardList}
+                      currentBoard={currentBoard}
+                      column={column}
+                    />
+                  ))}
+                  <button
+                    className={styles['board__column-button--add']}
+                    onClick={handleClickAddColumn}
+                  >
+                    <IconPlus className={styles['board__column-button__icon']} />
+                  </button>
+                </div>
+              </ScrollArea>
             ) : (
-              <div className={styles['content__add-board']}>
-                <p>This board is empty. Create a new column to get started.</p>
-                <button className={styles.board__content__addcolumn} onClick={handleClickAddColumn}>
-                  add a new column
-                </button>
+              <div className={styles['board__content__add-board-container']}>
+                <p className={styles.board__content__text}>
+                  This board is empty. Create a new column to get started.
+                </p>
+                <Button
+                  className={styles['board__content__column--add']}
+                  onClick={handleClickAddColumn}
+                  variant="default"
+                >
+                  Add a new column
+                </Button>
               </div>
             )}
           </div>
         </>
       ) : (
-        <p>Create a board for getting started</p>
+        <div className={styles.board__empty}>
+          <p className={styles.board__empty__description}>
+            Create or select a board for getting started
+          </p>
+        </div>
       )}
     </div>
   );

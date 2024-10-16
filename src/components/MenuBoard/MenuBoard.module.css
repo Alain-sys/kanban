@@ -68,7 +68,7 @@
 .menu__scroll {
   height: 70%;
   max-height: 70%;
-  overflow: initial;
+  overflow: initial !important;
 }
 
 .menu__scroll__container {

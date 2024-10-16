@@ -1,13 +1,13 @@
 import { TextInput } from '@mantine/core';
 import { useState } from 'react';
 import { TBoard } from '../../Board/Board.types';
-import { BoardList } from '../MenuBoard.types';
+import { TBoardList } from '../MenuBoard.types';
 import MenuBoardOptions from '../MenuBoardOptions/MenuBoardOptions';
 import styles from './BoardItem.module.css';
 
 type Props = {
-  boardList: BoardList;
-  setBoardList: React.Dispatch<React.SetStateAction<BoardList>>;
+  boardList: TBoardList;
+  setBoardList: React.Dispatch<React.SetStateAction<TBoardList>>;
   board: TBoard;
   boardId: string | null;
   setBoardId: React.Dispatch<React.SetStateAction<string | null>>;

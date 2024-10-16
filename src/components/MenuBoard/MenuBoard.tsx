@@ -6,11 +6,11 @@ import { TBoard } from '../Board/Board.types';
 import BoardItem from './BoardItem/BoardItem';
 import ButtonVisibilityMenu from './ButtonVisibilityMenu/ButtonVisibilityMenu';
 import styles from './MenuBoard.module.css';
-import { BoardList } from './MenuBoard.types';
+import { TBoardList } from './MenuBoard.types';
 
 type Props = {
-  boardList: BoardList;
-  setBoardList: React.Dispatch<React.SetStateAction<BoardList>>;
+  boardList: TBoardList;
+  setBoardList: React.Dispatch<React.SetStateAction<TBoardList>>;
   boardId: string | null;
   setBoardId: React.Dispatch<React.SetStateAction<string | null>>;
 };
@@ -53,7 +53,7 @@ const MenuBoard = ({ boardList, setBoardList, boardId, setBoardId }: Props) => {
             Create New Board
           </Button>
         </div>
-        <ScrollArea className={styles.menu__scroll}>
+        <ScrollArea.Autosize className={styles.menu__scroll}>
           <div className={styles.menu__scroll__container}>
             {boardList.map((board) => (
               <BoardItem
@@ -66,10 +66,14 @@ const MenuBoard = ({ boardList, setBoardList, boardId, setBoardId }: Props) => {
               />
             ))}
           </div>
-        </ScrollArea>
+        </ScrollArea.Autosize>
         <span className={styles.menu__divider}></span>
       </div>
-      <ButtonVisibilityMenu isOpenMenu={isOpenMenu} setIsOpenMenu={setIsOpenMenu} />
+      <ButtonVisibilityMenu
+        boardList={boardList}
+        isOpenMenu={isOpenMenu}
+        setIsOpenMenu={setIsOpenMenu}
+      />
     </div>
   );
 };

@@ -2,13 +2,13 @@ import { ActionIcon, Menu, Tooltip } from '@mantine/core';
 import { IconCopy, IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
 import { v4 as uuidv4 } from 'uuid';
 import { TBoard } from '../../Board/Board.types';
-import { BoardList } from '../MenuBoard.types';
+import { TBoardList } from '../MenuBoard.types';
 import styles from './MenuBoardOptions.module.css';
 
 type Props = {
   isOpenBoardOptions: boolean;
-  boardList: BoardList;
-  setBoardList: React.Dispatch<React.SetStateAction<BoardList>>;
+  boardList: TBoardList;
+  setBoardList: React.Dispatch<React.SetStateAction<TBoardList>>;
   board: TBoard;
   setEditingBoard: React.Dispatch<React.SetStateAction<boolean>>;
   setIsOpenBoardOptions: React.Dispatch<React.SetStateAction<boolean>>;
