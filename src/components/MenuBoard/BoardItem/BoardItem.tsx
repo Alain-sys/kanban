@@ -21,13 +21,14 @@ const BoardItem = ({ boardList, setBoardList, board, boardId, setBoardId }: Prop
 
   const handleSaveTitle = () => {
     if (isEditingBoardTitle !== board.title) {
-      const updatedBoard = { ...board, title: isEditingBoardTitle.trim() || 'Untitled' };
-      const updatedBoardList = boardList.map((boardItem) =>
-        boardItem.id === board.id ? updatedBoard : boardItem
+      setBoardList((prev) =>
+        prev.map((boardItem) =>
+          boardItem.id === board.id
+            ? { ...boardItem, title: isEditingBoardTitle.trim() || 'Untitled' }
+            : boardItem
+        )
       );
-      setBoardList(updatedBoardList);
     }
-
     setEditingBoard(false);
     setIsEditingBoardTitle('');
   };

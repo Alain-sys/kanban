@@ -41,7 +41,7 @@ const MenuBoardOptions = ({
 
   const handleDuplicateBoard = (event: React.MouseEvent) => {
     event.stopPropagation();
-    setBoardList([...boardList, { ...board, id: uuidv4() }]);
+    setBoardList([...boardList, { ...board, title: `${board.title} copie`, id: uuidv4() }]);
     setIsOpenBoardOptions(false);
   };
 
